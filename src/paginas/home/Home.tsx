@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Button, Typography, Grid} from '@material-ui/core';
 import { Box } from "@mui/material";
 import './Home.css';
+import TabPostagem from "../../components/postagens/tabpostagem/TabPostagem";
+import ModalPostagem from "../../components/postagens/modalPostagens/ModalPostagem";
+import { useNavigate } from "react-router-dom";
+import useLocalStorage from "react-use-localstorage";
 
 function Home () {
+    let navigate = useNavigate()
+
+    const[token,setToken]=useLocalStorage('token')
+
+    useEffect(()=>{
+        if(token ===''){
+            alert('Você precisa estar logado para poder utilizar este serviço')
+            navigate('/login')
+        }
+    },[token])
+
     return (
         <>
           <Grid container direction="row" justifyContent="center" alignItems="center" style={{ backgroundColor: "#3F51B5" }}>
@@ -14,6 +29,7 @@ function Home () {
                     </Box>
                     <Box display="flex" justifyContent="center">
                         <Box marginRight={1}>
+                            <ModalPostagem></ModalPostagem>
                         </Box>
                         <Button variant="outlined" style={{ borderColor: "white", backgroundColor: "#3F51B5", color: "white" }}>Ver Postagens</Button>
                     </Box>
@@ -21,7 +37,8 @@ function Home () {
                 <Grid item xs={6} >
                     <img src="https://i.imgur.com/H88yIo2.png" alt="" width="500px" height="500px" />
                 </Grid>
-                <Grid xs={12} style={{ backgroundColor: "white" }}>
+                <Grid xs={12} className="postagens">
+                    <TabPostagem/>
                 </Grid>
             </Grid>
         </>
