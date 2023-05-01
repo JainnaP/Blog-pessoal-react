@@ -12,10 +12,16 @@ import CadastroPost from './components/postagens/cadastroPost/CadastroPost';
 import DeletarPostagem from './components/postagens/deletarPostagem/DeletarPostagem';
 import CadastroTema from './components/temas/cadastroTema/CadastroTema';
 import DeletarTema from './components/temas/deletarTema/DeletarTema';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
+    <Provider store={store}>
+    <ToastContainer />
       <BrowserRouter>
         <Navbar />
         <div style={{ minHeight: '100vh' }}>
@@ -36,6 +42,7 @@ function App() {
         </div>
         <Footer />
       </BrowserRouter>
+      </Provider>
     </>
   );
 }

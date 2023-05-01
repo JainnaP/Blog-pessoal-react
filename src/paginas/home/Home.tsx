@@ -4,18 +4,29 @@ import { Box } from "@mui/material";
 import './Home.css';
 import TabPostagem from "../../components/postagens/tabpostagem/TabPostagem";
 import ModalPostagem from "../../components/postagens/modalPostagens/ModalPostagem";
-import { useNavigate } from "react-router-dom";
-import useLocalStorage from "react-use-localstorage";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { TokenState } from "../../store/tokens/tokensReducer";
+import { toast } from "react-toastify";
 
 function Home () {
     let navigate = useNavigate()
-
-    const[token,setToken]=useLocalStorage('token')
+    const token = useSelector<TokenState,TokenState['tokens']>(
+        (state)=>state.tokens
+    )
 
     useEffect(()=>{
         if(token ===''){
-            alert('Você precisa estar logado para poder utilizar este serviço')
-            navigate('/login')
+            toast.error('Você precisa estar logado', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+            });            navigate('/login')
         }
     },[token])
 
@@ -31,7 +42,9 @@ function Home () {
                         <Box marginRight={1}>
                             <ModalPostagem></ModalPostagem>
                         </Box>
+                        <Link to='/posts'>
                         <Button variant="outlined" style={{ borderColor: "white", backgroundColor: "#3F51B5", color: "white" }}>Ver Postagens</Button>
+                        </Link>
                     </Box>
                 </Grid>
                 <Grid item xs={6} >
